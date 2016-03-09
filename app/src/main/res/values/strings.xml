@@ -4,12 +4,14 @@
 
     <!-- Toolbar titles -->
     <string name="toolbar_title_home">天王盖地虎</string>
+    <string name="toolbar_title_cart">窗帘控制</string>
     <string name="toolbar_title_infra">红外感应</string>
     <string name="toolbar_title_monitor">视频监控</string>
     <string name="toolbar_title_about">关于</string>
 
     <!-- Navigation Drawer -->
     <string name="nav_drawer_item_switch">开关</string>
+    <string name="nav_drawer_item_cart">窗帘</string>
     <string name="nav_drawer_item_infra">红外</string>
     <string name="nav_drawer_item_monitor">监控</string>
     <string name="nav_drawer_about">关于</string>
@@ -43,6 +45,25 @@
         <item>阳台灯</item>
     </string-array>
 
+    <string-array name="cart_names">
+        <item>客厅</item>
+        <item>餐厅</item>
+        <item>次卫</item>
+        <item>主卫</item>
+        <item>主卧</item>
+        <item>次卧</item>
+        <item>书房</item>
+    </string-array>
+
+    <string-array name="infra_names">
+        <item>客厅</item>
+        <item>入门</item>
+        <item>走廊</item>
+        <item>主卫</item>
+        <item>主卧</item>
+        <item>次卧</item>
+        <item>书房</item>
+    </string-array>
 
     <string name="speak">Speak Now</string>
 

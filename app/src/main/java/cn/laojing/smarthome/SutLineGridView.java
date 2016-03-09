@@ -28,16 +28,17 @@ public class SutLineGridView extends GridView {
     @Override
     protected void dispatchDraw(Canvas canvas){
         super.dispatchDraw(canvas);
+        /*
         View localView1 = getChildAt(0);
         int column = getWidth() / localView1.getWidth();
         int childCount = getChildCount();
         Paint localPaint;
         localPaint = new Paint();
-        localPaint.setStrokeWidth(2);
+        localPaint.setStrokeWidth(20);
         localPaint.setStyle(Paint.Style.STROKE);
-        localPaint.setColor(getContext().getResources().getColor(R.color.text_black_divider_12));
+        localPaint.setColor(getContext().getResources().getColor(R.color.btn_text));
 
-        Log.e("cn.laojing.smarthome", "child"+childCount );
+        //Log.e("cn.laojing.smarthome", "child"+childCount );
 
         for(int i = 0;i < childCount;i++){
             View cellView = getChildAt(i);
@@ -56,5 +57,6 @@ public class SutLineGridView extends GridView {
                 canvas.drawLine(lastView.getRight() + lastView.getWidth() * j, lastView.getTop(), lastView.getRight() + lastView.getWidth()* j, lastView.getBottom(), localPaint);
             }
         }
+        */
     }
 }

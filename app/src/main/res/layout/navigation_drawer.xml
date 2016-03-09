@@ -100,7 +100,7 @@
                     <ImageView
                         android:id="@+id/navigation_drawer_items_list_icon_switch"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_home_24dp"
+                        android:src="@drawable/menu_lightclose"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected" />
 
@@ -113,6 +113,26 @@
                 </FrameLayout>
 
                 <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_cart"
+                    style="@style/NavDrawerRowLayout.Main"
+                    tools:background="@color/nav_drawer_row_item_selected">
+
+                    <ImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_cart"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/menu_cartclose"
+                        tools:ignore="ContentDescription"
+                        tools:tint="@color/nav_drawer_item_icon_selected" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_cart"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_item_cart"
+                        tools:textColor="@color/nav_drawer_item_text_selected" />
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:id="@+id/navigation_drawer_items_list_linearLayout_infra"
                     style="@style/NavDrawerRowLayout.Main"
                     tools:background="@color/nav_drawer_row_item_selected">
@@ -120,7 +140,7 @@
                     <ImageView
                         android:id="@+id/navigation_drawer_items_list_icon_infra"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_explore_24dp"
+                        android:src="@drawable/menu_infraclose"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected" />
 
@@ -140,7 +160,7 @@
                     <ImageView
                         android:id="@+id/navigation_drawer_items_list_icon_monitor"
                         style="@style/NavDrawerRowItemIcon"
-                        android:src="@drawable/ic_help_24dp"
+                        android:src="@drawable/menu_monitor"
                         tools:ignore="ContentDescription"
                         tools:tint="@color/nav_drawer_item_icon_selected" />
 

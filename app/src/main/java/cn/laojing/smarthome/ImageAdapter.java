@@ -50,7 +50,7 @@ public class ImageAdapter extends BaseAdapter {
         ImageView imageView = (ImageView)v.findViewById(R.id.iv_item);
         TextView textView = (TextView)v.findViewById(R.id.tv_item);
 
-        imageView.setImageResource(R.drawable.lighton);
+        imageView.setImageResource(R.drawable.lightopen_dark);
         textView.setText(lightNames[position]);
 
         return v;

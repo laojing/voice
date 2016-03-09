@@ -2,46 +2,46 @@
 <items version="2" >
 
     <item
-        jar="/home/laojing/Android/SmartHome/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/classes-d0a5eb2d8396495aac61f1b33ba526ea7e085a91.jar" />
-    </item>
-    <item
-        jar="/home/laojing/Android/SmartHome/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/classes-1eed686e38e95c9f5b0f38815750ee8b707fd6e0.jar" />
-    </item>
-    <item
-        jar="/home/laojing/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jar="/opt/android-sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-16d000f5c22187acfdb1b56c82cc986cbd165780.jar" />
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-d41efdc78caad0b96629ae0ef638ea52db411703.jar" />
     </item>
     <item
-        jar="/home/laojing/Android/SmartHome/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.0.0/jars/classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="031e8b3ab2df4ab43b1017f84417d7e10dfbb8d2">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/classes-71f9943f462ecd9c708ac0d02739a46ead7d405f.jar" />
-    </item>
-    <item
-        jar="/home/laojing/Android/SmartHome/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-a7bfcad886ef859081d78a11762a58e276bb2009.jar" />
-    </item>
-    <item
-        jar="/home/laojing/Android/SmartHome/app/build/intermediates/exploded-aar/com.android.support/percent/23.1.0/jars/classes.jar"
+        jar="/home/laojing/Android/Voice/app/build/intermediates/exploded-aar/com.android.support/percent/23.1.0/jars/classes.jar"
         jumboMode="false"
         revision="23.0.2"
         sha1="6e7040af4ab4aa797cbf6e6eacf94fcf241ae8f0">
-        <dex dex="/home/laojing/Android/SmartHome/app/build/intermediates/pre-dexed/debug/classes-10912294d964595f7c72d1b5f59ddb200a086365.jar" />
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/classes-180e7b630b8d3743837b9593da167a3c8c10f014.jar" />
+    </item>
+    <item
+        jar="/home/laojing/Android/Voice/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-fa34f597605395f656a40669aedf7ac0033b88f7.jar" />
+    </item>
+    <item
+        jar="/home/laojing/Android/Voice/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/classes-a2a783ec9017e3362289a3fc39fc507fc43bc44f.jar" />
+    </item>
+    <item
+        jar="/home/laojing/Android/Voice/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/classes-35946643ef0e810e849b3e1085bde332ac6c32e2.jar" />
+    </item>
+    <item
+        jar="/home/laojing/Android/Voice/app/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/2.0.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="031e8b3ab2df4ab43b1017f84417d7e10dfbb8d2">
+        <dex dex="/home/laojing/Android/Voice/app/build/intermediates/pre-dexed/debug/classes-b1a99a325c345b89852957997c1efb6d8c7165de.jar" />
     </item>
 
 </items>

@@ -3,16 +3,18 @@
 <cn.laojing.smarthome.SutRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
     <cn.laojing.smarthome.SutLineGridView
         android:id="@+id/gridviewSwitch"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/btn_text"
         android:numColumns="4"
+        android:padding="8.0dip"
         android:gravity="center">
-    </cn.laojing.smarthome.SutLineGridView>
 
+    </cn.laojing.smarthome.SutLineGridView>
 
 </cn.laojing.smarthome.SutRelativeLayout>

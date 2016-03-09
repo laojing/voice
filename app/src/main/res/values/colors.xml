@@ -5,9 +5,12 @@
     <!-- App Main Palette -->
     <color name="primary">@color/grey_500</color>
     <color name="primaryDark">@color/grey_700</color>
-    <color name="textPrimary">@color/text_white_text_icons_100</color>
+    <color name="textPrimary">@color/white</color>
 
-    <!-- Text -->
+    <color name="white_500">#8e9396</color>
+    <color name="white_700">#594244</color>
+    <color name="white_200">#445a58</color>
+    <!-- Textebf3f6 -->
     <!-- Text -->
     <color name="text_black_text_87">#DE000000</color>
     <color name="text_black_secondary_icon_54">#8A000000</color>
@@ -27,7 +30,13 @@
     <color name="nav_drawer_row_item_selected">@color/grey_200</color>
     <color name="nav_drawer_row_item_pressed">@color/grey_400</color>
 
-    <!-- Grey -->
+    <!-- Grey8e9396
+             eaf2f5-->
+    <color name="light_text">#3f4a4c</color>
+    <color name="btn_text">#eaf2f5</color>
+    <color name="btn_light">#b5c3c6</color>
+    <color name="btn_dark">#333333</color>
+
     <color name="grey_200">#eeeeee</color>
     <color name="grey_400">#bdbdbd</color>
     <color name="grey_500">#3e3e3e</color>
@@ -42,5 +51,17 @@
     <!-- Black and White -->
     <color name="white">#FFFFFF</color>
     <color name="black_alpha_50">#80000000</color>
+
+
+
+    <color name="black_semi_transparent">#B2000000</color>
+    <color name="background">#e5e5e5</color>
+    <color name="half_black">#808080</color>
+    <color name="whitew">#fafafa</color>
+    <color name="white_pressed">#e1e1e1</color>
+    <color name="pink">#e91e63</color>
+    <color name="pink_pressed">#ec407a</color>
+    <color name="blue_semi_transparent">#805677fc</color>
+    <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
 </resources>

@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawerLayout mDrawerLayout;
     private LinearLayout mNavDrawerEntriesRootView;
     private PercentRelativeLayout mFrameLayout_AccountView;
-    private FrameLayout mFrameLayout_Switch, mFrameLayout_infra,
+    private FrameLayout mFrameLayout_Switch, mFrameLayout_cart, mFrameLayout_infra,
             mFrameLayout_monitor, mFrameLayout_About;
     private Context mContext;
 
@@ -91,6 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFrameLayout_Switch = (FrameLayout) findViewById
                 (R.id.navigation_drawer_items_list_linearLayout_switch);
 
+        mFrameLayout_cart = (FrameLayout) findViewById
+                (R.id.navigation_drawer_items_list_linearLayout_cart);
+
         mFrameLayout_infra = (FrameLayout) findViewById
                 (R.id.navigation_drawer_items_list_linearLayout_infra);
 
@@ -141,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Nav Drawer item click listener
         mFrameLayout_Switch.setOnClickListener(this);
+        mFrameLayout_cart.setOnClickListener(this);
         mFrameLayout_infra.setOnClickListener(this);
         mFrameLayout_monitor.setOnClickListener(this);
         mFrameLayout_About.setOnClickListener(this);
@@ -158,13 +163,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
         ft.add(R.id.main_activity_content_frame, FragmentSwitch.newInstance()).commit();
     }
-
-    public void changePage ( int right, int page ) {
-        if ( page == 0 && right == 0 ) {
-        } else if ( page == 0 && right == 1 ) {
-        }
-    }
-
 
     @Override
     public void onClick(View view)
@@ -188,6 +186,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
                 ft.replace(R.id.main_activity_content_frame, FragmentSwitch.newInstance()).commit();
 
+            }
+            else if (view == mFrameLayout_cart)
+            {
+                if (getSupportActionBar() != null)
+                {
+                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_cart));
+                }
+
+                view.setSelected(true);
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setCustomAnimations(
+                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
+                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
+                ft.replace(R.id.main_activity_content_frame, FragmentCart.newInstance()).commit();
+
+
+                Log.e("cn.laojing.smarthome", "childccccccccccccccccccccc");
             }
             else if (view == mFrameLayout_infra)
             {
@@ -290,6 +306,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 );
 
         homeImageView.setImageDrawable(homeDrawable);
+
+
+        final ImageView cartImageView =
+                (ImageView) findViewById(R.id.navigation_drawer_items_list_icon_cart);
+        final Drawable cartDrawable = DrawableCompat.wrap(cartImageView.getDrawable());
+        DrawableCompat.setTintList
+                (
+                        cartDrawable.mutate(),
+                        ContextCompat.getColorStateList(this, R.color.nav_drawer_icon)
+                );
+
+        cartImageView.setImageDrawable(cartDrawable);
+
 
         final ImageView infraImageView =
                 (ImageView) findViewById(R.id.navigation_drawer_items_list_icon_infra);

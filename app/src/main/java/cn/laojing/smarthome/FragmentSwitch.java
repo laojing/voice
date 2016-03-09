@@ -36,6 +36,7 @@ public class FragmentSwitch extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_switch, container, false);
 
 
+
         GridView gv = (GridView) view.findViewById(R.id.gridviewSwitch);
         gv.setAdapter(new ImageAdapter(getActivity()));
 
@@ -49,6 +50,7 @@ public class FragmentSwitch extends Fragment {
                 return gesture.onTouchEvent(event);//返回手势识别触发的事件
             }
         });
+
 
         return view;
     }

@@ -38,27 +38,33 @@ public class SutSwipeListener extends GestureDetector.SimpleOnGestureListener
         Fragment frag = null;
         int title = 0;
         if ( page == 0 && right == 0 ) {
-            frag = FragmentInfra.newInstance();
-            title = R.string.toolbar_title_infra;
+            frag = FragmentCart.newInstance();
+            title = R.string.toolbar_title_cart;
         } else if ( page == 0 && right == 1 ) {
             frag = FragmentAbout.newInstance();
             title = R.string.toolbar_title_about;
         } else if ( page == 1 && right == 0 ) {
-            frag = FragmentMonitor.newInstance();
-            title = R.string.toolbar_title_monitor;
+            frag = FragmentInfra.newInstance();
+            title = R.string.toolbar_title_infra;
         } else if ( page == 1 && right == 1 ) {
             frag = FragmentSwitch.newInstance();
             title = R.string.toolbar_title_home;
         } else if ( page == 2 && right == 0 ) {
+            frag = FragmentMonitor.newInstance();
+            title = R.string.toolbar_title_monitor;
+        } else if ( page == 2 && right == 1 ) {
+            frag = FragmentCart.newInstance();
+            title = R.string.toolbar_title_cart;
+        } else if ( page == 3 && right == 0 ) {
             frag = FragmentAbout.newInstance();
             title = R.string.toolbar_title_about;
-        } else if ( page == 2 && right == 1 ) {
+        } else if ( page == 3 && right == 1 ) {
             frag = FragmentInfra.newInstance();
             title = R.string.toolbar_title_infra;
-        } else if ( page == 3 && right == 0 ) {
+        } else if ( page == 4 && right == 0 ) {
             frag = FragmentSwitch.newInstance();
             title = R.string.toolbar_title_home;
-        } else if ( page == 3 && right == 1 ) {
+        } else if ( page == 4 && right == 1 ) {
             frag = FragmentMonitor.newInstance();
             title = R.string.toolbar_title_monitor;
         }

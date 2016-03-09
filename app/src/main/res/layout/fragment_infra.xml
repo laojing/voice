@@ -6,12 +6,15 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/neo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/pic2"
-        tools:ignore="ContentDescription" />
+
+    <GridView
+        android:id="@+id/gridviewInfra"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/btn_text"
+        android:numColumns="2"
+        android:padding="8dip"
+        android:gravity="center">
+    </GridView>
 
 </cn.laojing.smarthome.SutRelativeLayout>

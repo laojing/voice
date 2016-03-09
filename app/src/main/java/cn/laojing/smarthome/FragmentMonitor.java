@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
 
 public class FragmentMonitor extends Fragment {
@@ -31,9 +32,8 @@ public class FragmentMonitor extends Fragment {
         // The last two arguments ensure LayoutParams are inflated properly
         final View view = inflater.inflate(R.layout.fragment_monitor, container, false);
 
-
         //根据父窗体getActivity()为fragment设置手势识别
-        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),2));
+        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),3));
         //为fragment添加OnTouchListener监听器
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override

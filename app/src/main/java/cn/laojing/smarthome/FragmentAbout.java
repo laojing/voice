@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 public class FragmentAbout extends Fragment {
 
     private GestureDetector gesture;
@@ -33,7 +32,7 @@ public class FragmentAbout extends Fragment {
 
 
         //根据父窗体getActivity()为fragment设置手势识别
-        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),3));
+        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),4));
         //为fragment添加OnTouchListener监听器
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
