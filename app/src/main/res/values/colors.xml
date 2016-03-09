@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- App Main Palette -->
+    <color name="primary">@color/grey_500</color>
+    <color name="primaryDark">@color/grey_700</color>
+    <color name="textPrimary">@color/text_white_text_icons_100</color>
+
+    <!-- Text -->
+    <!-- Text -->
+    <color name="text_black_text_87">#DE000000</color>
+    <color name="text_black_secondary_icon_54">#8A000000</color>
+    <color name="text_black_divider_12">#1F000000</color>
+
+    <color name="text_white_text_icons_100">#FFFFFF</color>
+
+    <!-- NavigationDrawer -->
+    <color name="navigation_drawer_background">#ffffffff</color>
+    <color name="nav_drawer_item_icon_normal">@color/text_black_secondary_icon_54</color>
+    <color name="nav_drawer_item_icon_selected">@color/blue_500</color>
+    <color name="nav_drawer_item_text_selected">@color/blue_500</color>
+    <color name="nav_drawer_section_subheader">@color/text_black_secondary_icon_54</color>
+    <color name="nav_drawer_inset_foreground">#4000</color>
+
+    <color name="nav_drawer_row_item_unselected">@color/white</color>
+    <color name="nav_drawer_row_item_selected">@color/grey_200</color>
+    <color name="nav_drawer_row_item_pressed">@color/grey_400</color>
+
+    <!-- Grey -->
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_400">#bdbdbd</color>
+    <color name="grey_500">#3e3e3e</color>
+    <color name="grey_700">#2d2d2d</color>
+
+    <!-- Blue -->
+    <color name="blue_500">#2196f3</color>
+    <color name="blue_700">#1976D2</color>
+
+    <color name="gridline">#77000000</color>
+
+    <!-- Black and White -->
+    <color name="white">#FFFFFF</color>
+    <color name="black_alpha_50">#80000000</color>
+
+</resources>
