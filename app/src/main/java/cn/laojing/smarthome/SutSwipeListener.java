@@ -9,12 +9,11 @@ import android.view.MotionEvent;
 
 public class SutSwipeListener extends GestureDetector.SimpleOnGestureListener
 {
-    private Activity activity;
+    private MainActivity activity;
     private int page = 0;
 
-    public SutSwipeListener(Activity act, int cur){
+    public SutSwipeListener(MainActivity act){
         activity = act;
-        page = cur;
     }
 
     @Override//此方法必须重写且返回真，否则onFling不起效
@@ -25,20 +24,23 @@ public class SutSwipeListener extends GestureDetector.SimpleOnGestureListener
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if((e1.getX()- e2.getX()>120)&&Math.abs(velocityX)>200){
-            changePage(0, page);
+            activity.changePage(0);
             return true;
         }else if((e2.getX()- e1.getX()>120)&&Math.abs(velocityX)>200){
-            changePage(1, page);
+            activity.changePage(1);
             return true;
         }
         return false;
     }
 
+
+    /*
+
     public void changePage ( int right, int page ) {
         Fragment frag = null;
         int title = 0;
         if ( page == 0 && right == 0 ) {
-            frag = FragmentCart.newInstance();
+            frag = FragmentCart.newInstance(activity);
             title = R.string.toolbar_title_cart;
         } else if ( page == 0 && right == 1 ) {
             frag = FragmentAbout.newInstance();
@@ -53,7 +55,7 @@ public class SutSwipeListener extends GestureDetector.SimpleOnGestureListener
             frag = FragmentMonitor.newInstance();
             title = R.string.toolbar_title_monitor;
         } else if ( page == 2 && right == 1 ) {
-            frag = FragmentCart.newInstance();
+            frag = FragmentCart.newInstance(activity);
             title = R.string.toolbar_title_cart;
         } else if ( page == 3 && right == 0 ) {
             frag = FragmentAbout.newInstance();
@@ -91,4 +93,5 @@ public class SutSwipeListener extends GestureDetector.SimpleOnGestureListener
 
         }
     }
+    */
 }

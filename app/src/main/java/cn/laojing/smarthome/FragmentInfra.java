@@ -11,14 +11,28 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 
-public class FragmentInfra extends Fragment {
+public class FragmentInfra extends SutFragment {
 
     private GestureDetector gesture;
+    private static MainActivity act;
+    private AdapterInfra imgAdapter;
 
-    public static final FragmentInfra newInstance()
+    public static final FragmentInfra newInstance(MainActivity activity)
     {
         FragmentInfra f = new FragmentInfra();
+        f.act = activity;
+        f.page = 2;
+        f.title = R.string.toolbar_title_infra;
         return f;
+    }
+    public void updateLight(String buffer) {
+
+        byte[] b = buffer.getBytes();
+        for ( int i=0; i<6; i++ ) {
+            if ( b[i+20] == '1' ) imgAdapter.lights[i] = true;
+            else imgAdapter.lights[i] = false;
+        }
+        imgAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -33,19 +47,10 @@ public class FragmentInfra extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_infra, container, false);
 
         GridView gv = (GridView) view.findViewById(R.id.gridviewInfra);
-        gv.setAdapter(new AdapterInfra(getActivity()));
-        gv.setPadding(8,8,8, 308);
 
-        //根据父窗体getActivity()为fragment设置手势识别
-        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),2));
-        //为fragment添加OnTouchListener监听器
-        gv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gesture.onTouchEvent(event);//返回手势识别触发的事件
-            }
-        });
-
+        imgAdapter = new AdapterInfra(act);
+        gv.setPadding(8,8,8, 584);
+        gv.setAdapter(imgAdapter);
 
 
         return view;

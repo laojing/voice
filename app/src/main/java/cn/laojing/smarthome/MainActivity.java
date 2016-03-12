@@ -1,12 +1,23 @@
 package cn.laojing.smarthome;
 
+import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
+import android.speech.RecognitionListener;
+import android.speech.SpeechRecognizer;
 import android.support.annotation.NonNull;
 import android.support.percent.PercentRelativeLayout;
 import android.app.FragmentTransaction;
@@ -19,12 +30,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.baidu.speech.VoiceRecognitionService;
+import com.baidu.tts.answer.auth.AuthInfo;
+import com.baidu.tts.client.SpeechError;
+import com.baidu.tts.client.SpeechSynthesizer;
+import com.baidu.tts.client.SpeechSynthesizerListener;
+import com.baidu.tts.client.TtsMode;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +63,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FrameLayout mFrameLayout_Switch, mFrameLayout_cart, mFrameLayout_infra,
             mFrameLayout_monitor, mFrameLayout_About;
     private Context mContext;
+    private SutFragment fragments[] = {null, null, null, null, null};
+    public SutFragment fragCur = null;
+
+    private SpeechRecognizer speechRecognizer;
+    private long speechEndTime = -1;
+    private static final int EVENT_ERROR = 11;
+
+    private SutActionButton btnOpen, btnClose;
+
+    public CommandService.MyBinder myBinder;
+    private ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            myBinder = (CommandService.MyBinder) service;
+        }
+    };
+
+    private CommandReceiver receiver=null;
+    private class CommandReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Bundle bundle = intent.getExtras();
+            fragCur.updateLight(bundle.getString("lights"));
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +104,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mContext = this;
 
+        LinearLayout linear = (LinearLayout)findViewById(R.id.btnBoxBottom);
+        //根据父窗体getActivity()为fragment设置手势识别
+        final GestureDetector gesture = new GestureDetector(this, new SutSwipeListener(this));
+        //为fragment添加OnTouchListener监听器
+        linear.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gesture.onTouchEvent(event);//返回手势识别触发的事件
+            }
+        });
+
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         initialise();
+
+        btnOpen = (SutActionButton)findViewById(R.id.btnOpen);
+        btnOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myBinder.LightOn(17);
+            }
+        });
+
+        startService(new Intent(MainActivity.this, CommandService.class));
+        Intent bindIntent = new Intent(this, CommandService.class);
+        bindService(bindIntent, connection, BIND_AUTO_CREATE);
+
+        receiver=new CommandReceiver();
+        IntentFilter filter=new IntentFilter();
+        filter.addAction("cn.laojing.smarthome.CommandService");
+        MainActivity.this.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //结束服务
+        unbindService(connection);
+        stopService(new Intent(MainActivity.this, CommandService.class));
+        super.onDestroy();
     }
 
     @Override
@@ -61,19 +157,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_voice:
+                //Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:10086"));
+                //startActivity(intent);
+                //startActivity(new Intent(mContext, Test.class));
+                startActivity(new Intent(mContext, VoiceActivity.class));
 
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:10086"));
-                startActivity(intent);
-                //startActivity(new Intent(mContext, ApiActivity.class));
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Creates, binds and sets up the resources
-     */
+
+    public void activeFragment ( int index, int right ) {
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        if ( right == 0 ) {
+            ft.setCustomAnimations(
+                    R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
+                    R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
+        } else {
+            ft.setCustomAnimations(
+                    R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out,
+                    R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out);
+        }
+
+        if ( fragments[index] == null ) {
+            switch ( index ) {
+                case 0:
+                    fragments[index] = (SutFragment)FragmentSwitch.newInstance(this);
+                    break;
+                case 1:
+                    fragments[index] = (SutFragment)FragmentCart.newInstance(this);
+                    break;
+                case 2:
+                    fragments[index] = (SutFragment)FragmentInfra.newInstance(this);
+                    break;
+                case 3:
+                    fragments[index] = (SutFragment)FragmentMonitor.newInstance(this);
+                    break;
+                case 4:
+                    fragments[index] = (SutFragment)FragmentAbout.newInstance(this);
+            }
+            ft.add(R.id.main_activity_content_frame, fragments[index]);
+            ft.hide(fragments[index]);
+        }
+
+        // Set the first item as selected for the first time
+        if (getSupportActionBar() != null)
+        {
+            getSupportActionBar().setTitle((fragments[index]).title);
+        }
+        if ( fragCur != null ) {
+            ft.hide(fragCur);
+        }
+        ft.show(fragments[index]);
+        ft.commit();
+        fragCur = fragments[index];
+    }
+    public void changePage ( int right ) {
+        int page = fragCur.page;
+        if ( right == 1 ) page--;
+        else page++;
+        if ( page<0 ) page = 4;
+        if ( page>4 ) page = 0;
+        activeFragment(page,right);
+    }
+
     private void initialise()
     {
         // Toolbar
@@ -150,18 +300,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFrameLayout_monitor.setOnClickListener(this);
         mFrameLayout_About.setOnClickListener(this);
 
-        // Set the first item as selected for the first time
-        if (getSupportActionBar() != null)
-        {
-            getSupportActionBar().setTitle(R.string.toolbar_title_home);
-        }
+
 
         mFrameLayout_Switch.setSelected(true);
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.setCustomAnimations(
-                R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-        ft.add(R.id.main_activity_content_frame, FragmentSwitch.newInstance()).commit();
+
+        activeFragment ( 0,0 );
     }
 
     @Override
@@ -171,89 +314,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             onRowPressed((FrameLayout) view);
 
+
+            view.setSelected(true);
             if (view == mFrameLayout_Switch)
             {
-                if (getSupportActionBar() != null)
-                {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_home));
-                }
-
-                view.setSelected(true);
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(
-                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-                ft.replace(R.id.main_activity_content_frame, FragmentSwitch.newInstance()).commit();
-
+                activeFragment(0,0);
             }
             else if (view == mFrameLayout_cart)
             {
-                if (getSupportActionBar() != null)
-                {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_cart));
-                }
-
-                view.setSelected(true);
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(
-                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-                ft.replace(R.id.main_activity_content_frame, FragmentCart.newInstance()).commit();
-
-
-                Log.e("cn.laojing.smarthome", "childccccccccccccccccccccc");
+                activeFragment ( 1,0 );
             }
             else if (view == mFrameLayout_infra)
             {
-                if (getSupportActionBar() != null)
-                {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_infra));
-                }
-
-                view.setSelected(true);
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(
-                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-                ft.replace(R.id.main_activity_content_frame, FragmentInfra.newInstance()).commit();
-
+                activeFragment(2,0);
             }
             else if (view == mFrameLayout_monitor)
             {
-                if (getSupportActionBar() != null)
-                {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_monitor));
-                }
-
-                view.setSelected(true);
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.setCustomAnimations(
-                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-                ft.replace(R.id.main_activity_content_frame, FragmentMonitor.newInstance()).commit();
-
+                activeFragment(3,0);
             }
-            else if (view == mFrameLayout_About)
-            {
-                if (getSupportActionBar() != null)
-                {
-                    getSupportActionBar().setTitle(getString(R.string.toolbar_title_about));
-                }
-
-                view.setSelected(true);
-
-
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(
-                        R.anim.slide_fragment_horizontal_right_in, R.anim.slide_fragment_horizontal_left_out,
-                        R.anim.slide_fragment_horizontal_left_in, R.anim.slide_fragment_horizontal_right_out);
-                ft.replace(R.id.main_activity_content_frame, FragmentAbout.newInstance()).commit();
-
+            else if (view == mFrameLayout_About) {
+                activeFragment ( 4,0 );
             }
         }
         else
@@ -342,5 +422,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         monitorImageView.setImageDrawable(monitorDrawable);
     }
+
 
 }

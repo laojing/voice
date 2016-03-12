@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <cn.laojing.smarthome.SutLineGridView
+    <GridView
         android:id="@+id/gridviewSwitch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/btn_text"
-        android:numColumns="4"
         android:padding="8.0dip"
+        android:numColumns="@integer/switchCol"
+        android:descendantFocusability="blocksDescendants"
         android:gravity="center">
-
-    </cn.laojing.smarthome.SutLineGridView>
+    </GridView>
 
 </cn.laojing.smarthome.SutRelativeLayout>

@@ -11,16 +11,23 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 
-public class FragmentMonitor extends Fragment {
+public class FragmentMonitor extends SutFragment {
 
     private GestureDetector gesture;
+    private static MainActivity act;
 
-    public static final FragmentMonitor newInstance()
+    public static final FragmentMonitor newInstance(MainActivity activity)
     {
         FragmentMonitor f = new FragmentMonitor();
+        f.act = activity;
+        f.page = 3;
+        f.title = R.string.toolbar_title_monitor;
         return f;
     }
 
+    public void updateLight(String buffer) {
+
+    }
     @Override
     public View onCreateView
             (
@@ -33,7 +40,7 @@ public class FragmentMonitor extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_monitor, container, false);
 
         //根据父窗体getActivity()为fragment设置手势识别
-        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(getActivity(),3));
+        gesture = new GestureDetector(this.getActivity(), new SutSwipeListener(act));
         //为fragment添加OnTouchListener监听器
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -3,12 +3,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.laojing.smarthome" >
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <meta-data android:name="com.baidu.speech.APP_ID" android:value="6738489"/>
+        <meta-data android:name="com.baidu.speech.API_KEY" android:value="wnhOVvQB4ByQOLmfPelT1guS"/>
+        <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="94bdeadd1880b2905e368d1defb6666b"/>
+        <service android:name="com.baidu.speech.VoiceRecognitionService" android:exported="false" />
 
         <activity android:name=".MainActivity"
             android:theme="@style/AppTheme.WithNavDrawer">
@@ -17,7 +32,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-    </application>
+        >
+        <activity
+            android:name=".VoiceActivity"
+            android:theme="@style/AppTheme.WithNavDrawer">
+        </activity>
+        <activity
+            android:name=".Test"
+            android:theme="@style/AppTheme.WithNavDrawer">
+        </activity>
+        <service android:name=".CommandService" >
+        </service>
+</application>
 
 </manifest>

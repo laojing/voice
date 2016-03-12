@@ -2,6 +2,7 @@ package cn.laojing.smarthome;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,14 +12,13 @@ import android.widget.TextView;
 
 
 public class AdapterInfra extends BaseAdapter {
-    private Context mContext;
+    private MainActivity act;
     private String[] lightNames;
+    public boolean lights[] = new boolean[6];
 
-    public AdapterInfra(Context c) {
-        //lightNames = (String[])bundle.getSerializable("names");
-
-        mContext = c;
-        Resources res = mContext.getResources();
+    public AdapterInfra(MainActivity c) {
+        act = c;
+        Resources res = act.getResources();
         lightNames = res.getStringArray(R.array.infra_names);
     }
 
@@ -40,14 +40,17 @@ public class AdapterInfra extends BaseAdapter {
         RelativeLayout v;
 
         if(convertView == null) {
-            v = (RelativeLayout)View.inflate(mContext, R.layout.switch_item, null);
+            v = (RelativeLayout)View.inflate(act, R.layout.switch_item, null);
         } else {
             v = (RelativeLayout)convertView;
         }
         ImageView imageView = (ImageView)v.findViewById(R.id.iv_item);
         TextView textView = (TextView)v.findViewById(R.id.tv_item);
 
-        imageView.setImageResource(R.drawable.infraclose);
+        if ( lights[position] )
+            imageView.setImageResource(R.drawable.infraclose);
+        else
+            imageView.setImageResource(R.drawable.infraopen);
         textView.setText(lightNames[position]);
 
         return v;

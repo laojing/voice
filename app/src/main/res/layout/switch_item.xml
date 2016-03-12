@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
 
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_centerInParent="true"
@@ -15,6 +16,7 @@
         android:id="@+id/iv_item"
         android:layout_width="30.0dip"
         android:layout_height="45.0dip"
+        android:clickable="false"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/app_name" />
 
@@ -25,6 +27,7 @@
         android:layout_below="@id/iv_item"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dip"
+        android:clickable="false"
         android:maxLines="1"
         android:textSize="14.0sp"
         android:textColor="@color/light_text" />
