@@ -45,10 +45,10 @@ public class VoiceControl {
                     + c.get(Calendar.MINUTE) + "分"
                     + c.get(Calendar.SECOND) + "秒");
         } else if ( cmd.equals("打开客厅灯") ) {
-            mActivity.myBinder.LightOn(0);
+            //mActivity.myBinder.LightOn(0);
             this.mSpeechSynthesizer.speak("报告主人,任务完成");
         } else if ( cmd.equals("关闭客厅灯") ) {
-            mActivity.myBinder.LightOn(0);
+            //mActivity.myBinder.LightOn(0);
             this.mSpeechSynthesizer.speak("报告主人,任务完成");
         } else if ( cmd.indexOf("关闭所有") >= 0 ) {
             mActivity.myBinder.LightCloseAll();

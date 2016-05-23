@@ -1,6 +1,5 @@
 package cn.laojing.smarthome;
 
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,16 +8,10 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
-import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
-import android.support.annotation.NonNull;
 import android.support.percent.PercentRelativeLayout;
 import android.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -29,31 +22,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.baidu.speech.VoiceRecognitionService;
-import com.baidu.tts.answer.auth.AuthInfo;
-import com.baidu.tts.client.SpeechError;
-import com.baidu.tts.client.SpeechSynthesizer;
-import com.baidu.tts.client.SpeechSynthesizerListener;
-import com.baidu.tts.client.TtsMode;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,9 +38,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout mNavDrawerEntriesRootView;
     private PercentRelativeLayout mFrameLayout_AccountView;
     private FrameLayout mFrameLayout_Switch, mFrameLayout_cart, mFrameLayout_infra,
-            mFrameLayout_monitor, mFrameLayout_About;
+            mFrameLayout_monitor, mFrameLayout_config, mFrameLayout_About;
     private Context mContext;
-    private SutFragment fragments[] = {null, null, null, null, null};
+    private SutFragment fragments[] = {null, null, null, null, null, null};
     public SutFragment fragCur = null;
 
     private SpeechRecognizer speechRecognizer;
@@ -104,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mContext = this;
 
-        LinearLayout linear = (LinearLayout)findViewById(R.id.btnBoxBottom);
+        LinearLayout linear = (LinearLayout)findViewById(R.id .btnBoxBottom);
         //根据父窗体getActivity()为fragment设置手势识别
         final GestureDetector gesture = new GestureDetector(this, new SutSwipeListener(this));
         //为fragment添加OnTouchListener监听器
@@ -121,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         initialise();
 
+        /*
         btnOpen = (SutActionButton)findViewById(R.id.btnOpen);
         btnOpen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 myBinder.LightOn(17);
             }
         });
+        */
 
         startService(new Intent(MainActivity.this, CommandService.class));
         Intent bindIntent = new Intent(this, CommandService.class);
@@ -197,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragments[index] = (SutFragment)FragmentMonitor.newInstance(this);
                     break;
                 case 4:
+                    fragments[index] = (SutFragment)FragmentConfig.newInstance(this);
+                    break;
+                case 5:
                     fragments[index] = (SutFragment)FragmentAbout.newInstance(this);
             }
             ft.add(R.id.main_activity_content_frame, fragments[index]);
@@ -219,8 +201,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int page = fragCur.page;
         if ( right == 1 ) page--;
         else page++;
-        if ( page<0 ) page = 4;
-        if ( page>4 ) page = 0;
+        if ( page<0 ) page = 5;
+        if ( page>5 ) page = 0;
         activeFragment(page,right);
     }
 
@@ -250,6 +232,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFrameLayout_monitor = (FrameLayout) findViewById
                 (R.id.navigation_drawer_items_list_linearLayout_monitor);
+
+        mFrameLayout_config = (FrameLayout) findViewById
+                (R.id.navigation_drawer_items_list_linearLayout_config);
 
         mFrameLayout_About = (FrameLayout) findViewById
                 (R.id.navigation_drawer_items_list_linearLayout_about);
@@ -298,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFrameLayout_cart.setOnClickListener(this);
         mFrameLayout_infra.setOnClickListener(this);
         mFrameLayout_monitor.setOnClickListener(this);
+        mFrameLayout_config.setOnClickListener(this);
         mFrameLayout_About.setOnClickListener(this);
 
 
@@ -332,8 +318,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 activeFragment(3,0);
             }
-            else if (view == mFrameLayout_About) {
+            else if (view == mFrameLayout_config) {
                 activeFragment ( 4,0 );
+            }
+            else if (view == mFrameLayout_About) {
+                activeFragment ( 5,0 );
             }
         }
         else
@@ -347,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      *
      * @param pressedRow is the pressed row in the drawer
      */
-    private void onRowPressed(@NonNull final FrameLayout pressedRow)
+    private void onRowPressed( final FrameLayout pressedRow)
     {
         if (pressedRow.getTag() != getResources().getString(R.string.tag_nav_drawer_special_entry))
         {
@@ -421,6 +410,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 );
 
         monitorImageView.setImageDrawable(monitorDrawable);
+
+        final ImageView configImageView =
+                (ImageView) findViewById(R.id.navigation_drawer_items_list_icon_config);
+        final Drawable configDrawable = DrawableCompat.wrap(configImageView.getDrawable());
+        DrawableCompat.setTintList
+                (
+                        configDrawable.mutate(),
+                        ContextCompat.getColorStateList(this, R.color.nav_drawer_icon)
+                );
+
+        configImageView.setImageDrawable(configDrawable);
     }
 
 

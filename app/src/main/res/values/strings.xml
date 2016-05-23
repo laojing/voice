@@ -7,6 +7,7 @@
     <string name="toolbar_title_cart">窗帘控制</string>
     <string name="toolbar_title_infra">红外感应</string>
     <string name="toolbar_title_monitor">视频监控</string>
+    <string name="toolbar_title_config">配置</string>
     <string name="toolbar_title_about">关于</string>
 
 
@@ -16,6 +17,7 @@
     <string name="nav_drawer_item_cart">窗帘</string>
     <string name="nav_drawer_item_infra">红外</string>
     <string name="nav_drawer_item_monitor">监控</string>
+    <string name="nav_drawer_item_config">配置</string>
     <string name="nav_drawer_about">关于</string>
 
     <string name="navigation_drawer_opened">The navigation drawer is opened</string>
@@ -28,6 +30,12 @@
     <string name="start_voice">Click the button below and start speaking</string>
 
     <string-array name="light_names">
+        <item>次卫灯</item>
+        <item>主卫灯</item>
+        <item>书房灯</item>
+        <item>衣帽灯</item>
+        <item>主卧灯</item>
+        <item>次卧灯</item>
         <item>客厅灯</item>
         <item>沙发灯</item>
         <item>吧台灯</item>
@@ -38,12 +46,6 @@
         <item>餐厅灯</item>
         <item>走廊灯</item>
         <item>厨房灯</item>
-        <item>次卫灯</item>
-        <item>主卫灯</item>
-        <item>书房灯</item>
-        <item>衣帽灯</item>
-        <item>主卧灯</item>
-        <item>次卧灯</item>
         <item>阳台灯</item>
     </string-array>
 
@@ -60,6 +62,16 @@
     <string-array name="infra_names">
         <item>客厅</item>
         <item>入门</item>
+        <item>走廊</item>
+        <item>主卧</item>
+        <item>次卧</item>
+        <item>书房</item>
+    </string-array>
+
+
+    <string-array name="config_names">
+        <item>人体感应电源</item>
+        <item>入门       </item>
         <item>走廊</item>
         <item>主卧</item>
         <item>次卧</item>

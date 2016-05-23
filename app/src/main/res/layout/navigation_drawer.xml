@@ -171,6 +171,31 @@
                         tools:textColor="@color/nav_drawer_item_text_selected" />
 
                 </FrameLayout>
+
+
+
+                <FrameLayout
+                    android:id="@+id/navigation_drawer_items_list_linearLayout_config"
+                    style="@style/NavDrawerRowLayout.Main"
+                    tools:background="@color/nav_drawer_row_item_selected">
+
+                    <ImageView
+                        android:id="@+id/navigation_drawer_items_list_icon_config"
+                        style="@style/NavDrawerRowItemIcon"
+                        android:src="@drawable/menu_config"
+                        tools:ignore="ContentDescription"
+                        tools:tint="@color/nav_drawer_item_icon_selected" />
+
+                    <TextView
+                        android:id="@+id/navigation_drawer_items_textView_config"
+                        style="@style/NavDrawerRowItemText"
+                        android:text="@string/nav_drawer_item_config"
+                        tools:textColor="@color/nav_drawer_item_text_selected" />
+
+                </FrameLayout>
+
+
+
                 <include
                     layout="@layout/navigation_drawer_divider"/>
 

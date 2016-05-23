@@ -2,9 +2,11 @@ package cn.laojing.smarthome;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,11 +16,161 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Created by laojing on 3/12/16.
  */
 public class CommandService extends Service {
+
+    public static final String TAG  = "cn.laojing.smarthome";
+
+    private String ip               = "192.168.1.20";
+    private int port                = 8997;
+    private int timeout             = 10000;
+    private boolean threadDisable   = false;
+
+    class SendCmd{
+        public int cmdtype;
+        public int position;
+        public int datatype;
+        public boolean bdata;
+    }
+
+    Queue<SendCmd> cmdQueue         = null;
+
+    private MyBinder mBinder        = new MyBinder();
+
+    public void SendCommand( SendCmd cmd ) {
+
+        Socket client = null;
+        PrintWriter out;
+
+        try {
+            client = new Socket(ip, port);
+            client.setSoTimeout(timeout);// 设置阻塞时间
+
+            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
+                    client.getOutputStream())), true);
+
+            String mess = String.valueOf(cmd.cmdtype);
+            if( cmd.position < 10 ) {
+                mess += "0";
+                mess += String.valueOf(cmd.position);
+            }else
+                mess += String.valueOf(cmd.position);
+            mess += String.valueOf(cmd.datatype);
+
+            if( cmd.datatype == 1 ) {
+                mess += String.valueOf(cmd.bdata);
+            }
+            out.println(mess);
+            out.flush();
+
+            Log.e(TAG, "Send Command:" + mess );
+
+            out.close();
+            client.close();
+
+        } catch (UnknownHostException e) {
+            Log.e(TAG, "连接错误UnknownHostException 重新获取");
+        } catch (IOException e) {
+            Log.e(TAG, "连接服务器io错误" + e.getMessage());
+        } catch (Exception e) {
+            Log.e(TAG, "连接服务器错误Exception" + e.getMessage());
+        }
+    }
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.e(TAG, "Command Serivce onCreate() executed");
+
+        cmdQueue = new LinkedList<SendCmd>();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!threadDisable) {
+                    SendCmd cmd = null;
+                    if( (cmd = cmdQueue.poll()) != null ) {
+                        Log.e(TAG, "Command " + cmd.position );
+                        SendCommand( cmd );
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        Log.e(TAG, "数据接收错误" + e.getMessage());
+                    }
+                }
+            }
+        }).start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        threadDisable = true;
+    }
+
+    @Override
+    public int onStartCommand (Intent intent, int flags, int startId) {
+        Log.e(TAG, "Command Service onStartCommand() executed");
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
+
+    class MyBinder extends Binder {
+
+        public void LightChange ( int pos, boolean state ) {
+            SendCmd cmd = new SendCmd();
+            cmd.cmdtype = 2;
+            cmd.position = pos;
+            cmd.datatype = 1;
+            cmd.bdata = state;
+            cmdQueue.offer(cmd);
+            Log.e(TAG, "Command Light " + pos + "jjj" + state);
+
+        }
+        public void LightCloseAll () {
+            for ( int i=0; i<17; i++ ) {
+               // if ( lights[i] ) LightOn(i);
+            }
+        }
+
+        public void ParameterChange( int pos, boolean state ) {
+            SendCmd cmd = new SendCmd();
+            cmd.cmdtype = 1;
+            cmd.position = pos;
+            cmd.datatype = 1;
+            cmd.bdata = state;
+            cmdQueue.offer(cmd);
+            Log.e(TAG, "Command Parameter " + pos + "jjj" + state);
+        }
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 
     public static final String TAG  = "cn.laojing.smarthome";
 
@@ -31,6 +183,7 @@ public class CommandService extends Service {
     private PrintWriter out;
     private BufferedReader in;
     private boolean sendWait = false;
+    private String[] lightNames;
     private boolean lights[] = new boolean[26];
     private boolean cmds[] = new boolean[18];
 
@@ -89,6 +242,11 @@ public class CommandService extends Service {
         super.onCreate();
         Log.e(TAG, "Command Serivce onCreate() executed");
 
+        lightNames = getApplicationContext().getResources().getStringArray(R.array.light_names);
+
+        for ( int i=0; i<17; i++ ) {
+            cmds[i] = false;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -120,6 +278,7 @@ public class CommandService extends Service {
 
                         } else {
                             Log.e(TAG, "没有可用连接");
+                            Thread.sleep(2000);
                             conn();
                         }
                     } catch (Exception e) {
@@ -163,14 +322,26 @@ public class CommandService extends Service {
 
         public void LightOn ( int index ) {
             cmds[index] = true;
-            //send(String.valueOf(index));
+
+            String msg = "";
+            if ( index < 17 ) {
+                if ( lights[index] ) msg = "关闭";
+                else msg = "打开";
+                msg += lightNames[index];
+            } else {
+                if ( lights[17]) msg = "使能人体感应";
+                msg = "屏蔽人体感应";
+            }
+            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+
         }
         public void LightCloseAll () {
             for ( int i=0; i<17; i++ ) {
-                if ( lights[i] ) cmds[i] = true;
-                else cmds[i] = false;
+                if ( lights[i] ) LightOn(i);
             }
         }
 
     }
-}
+
+
+ */

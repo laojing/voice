@@ -21,59 +21,29 @@
         <FrameLayout
             android:id="@+id/main_activity_content_frame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
         </FrameLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:layout_weight="5"
             android:id="@+id/btnBoxBottom"
             android:background="@color/primary">
 
-            <cn.laojing.smarthome.SutActionButton
-                android:id="@+id/btnLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/login_dark"
-                app:fab_colorNormal="@color/white_500"
-                app:fab_colorPressed="@color/white_700"
-                android:layout_marginTop="10dip"
-                android:layout_marginLeft="38dip"
-                android:layout_centerHorizontal="true"/>
 
-            <cn.laojing.smarthome.SutActionButton
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/logout_light"
-                app:fab_colorNormal="@color/white_500"
-                app:fab_colorPressed="@color/white_700"
-                android:layout_marginTop="10dip"
-                android:layout_marginLeft="38dip"
-                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textStatus"
+                android:gravity="center"
+                android:layout_gravity="center" />
 
-            <cn.laojing.smarthome.SutActionButton
-                android:id="@+id/btnOpen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/lightopen_dark"
-                app:fab_colorNormal="@color/white_500"
-                app:fab_colorPressed="@color/white_700"
-                android:layout_marginTop="10dip"
-                android:layout_marginLeft="38dip"
-                android:layout_centerHorizontal="true"/>
 
-            <cn.laojing.smarthome.SutActionButton
-                android:id="@+id/btnClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/lightclose_dark"
-                app:fab_colorNormal="@color/white_500"
-                app:fab_colorPressed="@color/white_700"
-                android:layout_marginTop="10dip"
-                android:layout_marginLeft="38dip"
-                android:layout_centerHorizontal="true"/>
 
         </LinearLayout>
 

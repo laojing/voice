@@ -18,7 +18,7 @@ public class FragmentAbout extends SutFragment {
     {
         FragmentAbout f = new FragmentAbout();
         f.act = activity;
-        f.page = 4;
+        f.page = 5;
         f.title = R.string.toolbar_title_about;
         return f;
     }

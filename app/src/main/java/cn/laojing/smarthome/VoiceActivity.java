@@ -276,6 +276,7 @@ public class VoiceActivity extends ListActivity implements RecognitionListener,S
 
     @Override
     protected void onDestroy() {
+        unbindService(connection);
         speechRecognizer.destroy();
         super.onDestroy();
     }

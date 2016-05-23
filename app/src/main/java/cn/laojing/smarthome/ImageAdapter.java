@@ -18,9 +18,11 @@ import android.widget.TextView;
 public class ImageAdapter extends BaseAdapter {
     private String[] lightNames;
     private MainActivity act;
+    private ImageAdapter me;
     public boolean lights[] = new boolean[18];
 
     public ImageAdapter(MainActivity c) {
+        me = this;
         act = c;
         Resources res = act.getResources();
         lightNames = res.getStringArray(R.array.light_names);
@@ -42,7 +44,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         RelativeLayout v;
 
@@ -52,6 +54,13 @@ public class ImageAdapter extends BaseAdapter {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    lights[position] = !lights[position];
+                    if( lights[position] )
+                        act.myBinder.LightChange(position, true);
+                    else
+                        act.myBinder.LightChange(position, false);
+                    me.notifyDataSetChanged();
+                    /*
                     RelativeLayout vv = (RelativeLayout)v;
                     TextView textView = (TextView)vv.findViewById(R.id.tv_item);
 
@@ -64,7 +73,8 @@ public class ImageAdapter extends BaseAdapter {
                             break;
                         }
                     }
-                    Log.e("cn.laojing.smarthome", "===" + find);
+                    */
+                   //Log.e("cn.laojing.smarthome", "===" + find);
                 }
             });
 
@@ -79,6 +89,7 @@ public class ImageAdapter extends BaseAdapter {
             imageView.setImageResource(R.drawable.lightopen_dark);
         else
             imageView.setImageResource(R.drawable.lightclose_dark);
+
         textView.setText(lightNames[position]);
 
 
